@@ -1,0 +1,50 @@
+<div *ngIf="!updateFlag">
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let emp of empList;let i = index">
+        <tr>
+            <td>{{emp.id}}</td>
+            <td>{{emp.name}}</td>
+            <td>{{emp.department}}</td>
+            <td>{{emp.salary}}</td>
+            <td><button [id]="i" (click)="update($event)">Update</button></td>
+            <td><button [id]="i" (click)="delete($event)">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<div *ngIf="updateFlag">
+    <h3>Update Employee Details</h3>
+    <form [formGroup]="employeeUpdateForm" (submit)="onUpdate()">
+        Id:<input type="text" formControlName="id"><br>
+        <div *ngIf="employeeUpdateForm.controls['id'].hasError('required')">
+            <span [ngStyle]="{'color':'red'}">Id is mandatory</span>
+        </div>
+        Name:<input type="text" formControlName="name"><br>
+        <div *ngIf="employeeUpdateForm.controls['name'].hasError('required')">
+            <span [ngStyle]="{'color':'red'}">Name is mandatory</span>
+        </div>
+        <div *ngIf="employeeUpdateForm.controls['name'].hasError('minlength')">
+            <span [ngStyle]="{'color':'red'}">Name should be minimum 2 characters</span>
+        </div>
+        <div *ngIf="employeeUpdateForm.controls['name'].hasError('maxlength')">
+            <span [ngStyle]="{'color':'red'}">Name should not be more than 25 characters</span>
+        </div>
+        Department:<input type="text" formControlName="department"><br>
+        <div *ngIf="employeeUpdateForm.controls['department'].hasError('minlength')">
+             <span [ngStyle]="{'color':'red'}">Department should be minimum 2 characters</span>
+        </div>
+        Salary:<input type="number" formControlName="salary"><br>
+        <div *ngIf="employeeUpdateForm.controls['salary'].hasError('min')">
+            <span [ngStyle]="{'color':'red'}">Salary should be greater than 0</span>
+        </div>
+        <input type="submit" value="Update">
+    </form>
+</div>
